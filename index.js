@@ -8,7 +8,7 @@ const swaggerFile = require('./swagger_output.json')
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:3000"
+    origin: ["http://localhost:3000","https://bitirme.recepkucukekiz.engineer"]
 };
 
 app.use(cors(corsOptions));
