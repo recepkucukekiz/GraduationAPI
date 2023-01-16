@@ -132,6 +132,19 @@ exports.delete = (req, res) => {
                     message: `Cannot delete Worker with id=${id}. Maybe Worker was not found!`
                 });
             } else {
+                var result = shopController.removeWorkerfromShop(data.shopId, id);
+                if (!result) {
+                    res.status(500).send({
+                        message: "Worker deleted but did not remove from shop."
+                    });
+                } else {
+                    var nestedResult = serviceController.removeWorkerfromServices(data.services, id);
+                    if (!nestedResult) {
+                        res.status(500).send({
+                            message: "Worker deleted but did not remove from services."
+                        });
+                    }
+                }
                 res.send({
                     message: "Worker was deleted successfully!"
                 });

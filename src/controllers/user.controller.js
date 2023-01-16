@@ -2,6 +2,7 @@ const db = require("../config/database.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Shop = db.Shop;
+require("dotenv").config();
 
 // Login a user
 exports.login = async (req, res) => {
@@ -13,7 +14,7 @@ exports.login = async (req, res) => {
 
     if (user && await bcrypt.compare(password, user.password)) {
         const token = jwt.sign(
-            { user_id: user._id },
+            { user_id: user._id.toString() },
             process.env.TOKEN_KEY,
             {
                 expiresIn: "2h",

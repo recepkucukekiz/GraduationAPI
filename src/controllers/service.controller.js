@@ -182,26 +182,42 @@ exports.addWorker = (req, res) => {
     }
 }
 
-// Remove a Worker from a Service
-exports.removeWorker = (req, res) => {
-    const id = req.params.id;
-    const workerId = req.body.workerId
-
-    Service.findByIdAndUpdate(id
-        , { $pull: { workers: workerId } }
-        , { useFindAndModify: false })
+exports.removeWorkerfromServices = (id, workerId) => {
+    var result = true;
+    Service.findByIdAndUpdate
+        (
+            id
+            , { $pull: { workers: workerId } }
+            , { useFindAndModify: false }
+        )
         .then(data => {
             if (!data) {
-                res.status(404).send({
-                    message: `Cannot update Service with id=${id}. Maybe Service was not found!`
-                });
-            } else res.send({ message: "Service was updated successfully." });
+                result = false;
+            }
         }
         )
         .catch(err => {
-            res.status(500).send({
-                message: "Error updating Service with id=" + id
-            });
+            result = false;
         }
         );
+    return result;
+}
+
+
+// Remove a Worker from a Service
+exports.removeWorker = (req, res) => {
+    const id = req.params.id;
+    const workerId = req.body.workerId;
+
+    var result = this.removeWorkerfromService(id, workerId);
+    if (result) {
+        var nestedResult = workerController.removeServicefromWorker(workerId, id);
+        if (nestedResult) {
+            res.send({ message: "Service was updated successfully." });
+        } else {
+            res.status(500).send({
+                message: "Worker removed from Service but Service not removed from Worker."
+            });
+        }
+    }
 }

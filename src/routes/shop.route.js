@@ -7,6 +7,7 @@ module.exports = app => {
     router.get("/:id", shopController.get); // get a shop by id
     router.post("/", shopController.post); // create a new shop
     router.delete("/:id", shopController.delete); // delete a shop
+    router.put("/:id", shopController.update); // update a shop
     
     app.use("/api/shop", router);
   };
