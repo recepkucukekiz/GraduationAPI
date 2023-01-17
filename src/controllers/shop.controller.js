@@ -255,7 +255,7 @@ exports.removeWorker = (req, res) => {
 // Update a Shop by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
-
+    console.log(req.body);
     Shop.
         findByIdAndUpdate
         (
@@ -271,7 +271,7 @@ exports.update = (req, res) => {
                 phone: req.body.phone,
                 image: req.body.image,
                 description: req.body.description,
-                workingHours: req.body.workingHours,
+                workingHours: req.body.workingTime,
                 username: req.body.username,
                 password: req.body.password,
                 services: req.body.services,
