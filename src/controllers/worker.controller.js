@@ -61,7 +61,7 @@ exports.post = (req, res) => {
         password: req.body.password,
         email: req.body.email,
         shopId: req.body.shopId,
-        services: []
+        services: req.body.services
     });
 
     worker
